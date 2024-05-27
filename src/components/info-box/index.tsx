@@ -86,7 +86,9 @@ export default function InfoBox({
           width,
           height,
         }}
-      />
+      >
+        click
+      </button>
       {Boolean(visibleBoxIndex === index) && (
         <div>
           <input value={boxText} onChange={(e) => setBoxText(e.target.value)} />

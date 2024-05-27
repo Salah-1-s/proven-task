@@ -15,6 +15,7 @@ function App() {
   const [groupedData, setGroupedData] =
     useState<GroupedBoxesByClassInterface>();
   const [visibleBoxIndex, setVisibleBoxIndex] = useState<number>();
+  const [scaleRatio, setScaleRatio] = useState<number>();
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -37,15 +38,32 @@ function App() {
   }, [data]);
 
   useEffect(() => {
-    if (!canvasRef?.current) {
-      return;
-    }
+    const canvas = canvasRef.current;
 
-    const ctx = canvasRef.current ? canvasRef.current.getContext("2d") : null;
-    const myImage = new Image();
-    myImage.src = Data.base64;
-    ctx?.drawImage(myImage, 0, 0);
-  }, [canvasRef]);
+    if (canvas) {
+      const ctx = canvas.getContext("2d");
+      const image = new Image();
+
+      image.onload = () => {
+        const canvasHeight = window.innerHeight;
+        const aspectRatio = image.width / image.height;
+
+        canvas.height = canvasHeight;
+        canvas.width = canvasHeight * aspectRatio;
+
+        const scaledWidth = canvas.height * aspectRatio;
+        const scaledHeight = canvas.height;
+        setScaleRatio(scaledWidth / image.width);
+
+        if (ctx) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(image, 0, 0, scaledWidth, scaledHeight);
+        }
+      };
+
+      image.src = Data.base64;
+    }
+  }, []);
 
   return (
     <main>
@@ -55,17 +73,21 @@ function App() {
       />
 
       <div className="canvas__wrapper">
-        <canvas ref={canvasRef} id="canvas" height="1450" width="1100"></canvas>
+        <canvas
+          ref={canvasRef}
+          id="canvas"
+          style={{ display: "block", height: "100vh" }}
+        />
         {data.boxes.map((box, i) => (
           <InfoBox
             // Setting a unique key because some of the boxes have the same text/class.
             // And after deleting one of them, their indexes do conflict
             key={box.points[0]}
             index={i}
-            X1={box.points[0]}
-            X2={box.points[2]}
-            Y1={box.points[1]}
-            Y2={box.points[3]}
+            X1={box.points[0] * (scaleRatio || 0)}
+            X2={box.points[2] * (scaleRatio || 0)}
+            Y1={box.points[1] * (scaleRatio || 0)}
+            Y2={box.points[3] * (scaleRatio || 0)}
             text={box.text}
             boxClassName={box.class}
             visibleBoxIndex={visibleBoxIndex}
