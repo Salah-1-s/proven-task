@@ -1,0 +1,7 @@
+.sidebar {
+  position: absolute;
+  top: 0;
+  inset-inline-start: 0;
+  padding: 5px;
+  border: 1px solid red;
+}

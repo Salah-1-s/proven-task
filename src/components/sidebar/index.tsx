@@ -1,5 +1,7 @@
 import { GroupedBoxesByClassInterface } from "../../definitions/interfaces/common";
 
+import "./styles.css";
+
 interface SidebarProps {
   classes?: GroupedBoxesByClassInterface;
   setVisibleBoxIndexHandler: (index: number) => void;
@@ -14,15 +16,7 @@ export default function Sidebar({
   }
 
   return (
-    <nav
-      style={{
-        position: "absolute",
-        top: 0,
-        insetInlineStart: 0,
-        padding: "5px",
-        border: "1px solid red",
-      }}
-    >
+    <nav className="sidebar">
       {Object.keys(classes).map((c) => (
         <div key={c}>
           <h6>{c}</h6>
