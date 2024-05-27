@@ -1,0 +1,32 @@
+.box {
+  position: absolute;
+}
+
+.box__button {
+  background: red;
+  opacity: 0.3;
+}
+
+.Name {
+  background: olive;
+}
+
+.Descriptions {
+  background: green;
+}
+
+.Supplier {
+  background: yellow;
+}
+
+.Amount {
+  background: violet;
+}
+
+.Number {
+  background: orange;
+}
+
+.Date {
+  background: cyan;
+}
