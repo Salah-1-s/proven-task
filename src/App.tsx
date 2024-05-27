@@ -1,12 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import InfoBox from "./components/info-box";
+import Sidebar from "./components/sidebar";
 import Data from "./consts/task-object - Front End.json";
-import { AppDateInterface } from "./definitions/interfaces/common";
+import { groupByClassName } from "./utils/common";
+import {
+  AppDateInterface,
+  GroupedBoxesByClassInterface,
+} from "./definitions/interfaces/common";
 
 import "./App.css";
 
 function App() {
   const [data, setData] = useState<AppDateInterface>(Data);
+  const [groupedData, setGroupedData] =
+    useState<GroupedBoxesByClassInterface>();
   const [visibleBoxIndex, setVisibleBoxIndex] = useState<number>();
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -26,6 +33,10 @@ function App() {
   };
 
   useEffect(() => {
+    setGroupedData(groupByClassName(data.boxes, "class"));
+  }, [data]);
+
+  useEffect(() => {
     if (!canvasRef?.current) {
       return;
     }
@@ -38,9 +49,13 @@ function App() {
 
   return (
     <main>
-      <div className="canvas__wrapper">
-        <canvas ref={canvasRef} id="canvas" height="1450" width="1100" />
+      <Sidebar
+        classes={groupedData}
+        setVisibleBoxIndexHandler={setVisibleBoxIndexHandler}
+      />
 
+      <div className="canvas__wrapper">
+        <canvas ref={canvasRef} id="canvas" height="1450" width="1100"></canvas>
         {data.boxes.map((box, i) => (
           <InfoBox
             // Setting a unique key because some of the boxes have the same text/class.
