@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { getInfoBoxDimensions } from "../../utils/canvas";
-import { useOutsideClick } from "../../hooks/outside-click";
 import { AppDateInterface } from "../../definitions/interfaces/common";
 
 import "./styles.css";
@@ -65,10 +64,6 @@ export default function InfoBox({
     setVisibleBoxIndexHandler(undefined);
   };
 
-  const boxRef = useOutsideClick(() => {
-    cancelHandler();
-  });
-
   return (
     <div
       className="box"
@@ -76,7 +71,6 @@ export default function InfoBox({
         insetInlineStart: X1,
         top: Y1,
       }}
-      //   ref={boxRef}
     >
       <button
         aria-label={text}
