@@ -1,4 +1,4 @@
-import { GroupedBoxesByClassInterface } from "../../definitions/interfaces/common";
+import { GroupedBoxesByClassInterface } from "../../interfaces/common";
 
 import "./styles.css";
 

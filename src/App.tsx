@@ -6,7 +6,7 @@ import { groupByClassName } from "./utils/common";
 import {
   AppDateInterface,
   GroupedBoxesByClassInterface,
-} from "./definitions/interfaces/common";
+} from "./interfaces/common";
 
 import "./App.css";
 

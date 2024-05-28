@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { getInfoBoxDimensions } from "../../utils/canvas";
-import { AppDateInterface } from "../../definitions/interfaces/common";
+import { AppDateInterface } from "../../interfaces/common";
 
 import "./styles.css";
 
