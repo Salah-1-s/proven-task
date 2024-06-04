@@ -31,6 +31,7 @@ function App() {
     const newArray = [...data.boxes];
     newArray.splice(index, 1);
     setData((prev) => ({ ...prev, boxes: newArray }));
+    setVisibleBoxIndex(undefined);
   };
 
   useEffect(() => {
@@ -90,6 +91,7 @@ function App() {
             Y2={box.points[3] * (scaleRatio || 0)}
             text={box.text}
             boxClassName={box.class}
+            boxesClassNames={Object.keys(groupedData || {})}
             visibleBoxIndex={visibleBoxIndex}
             setVisibleBoxIndexHandler={setVisibleBoxIndexHandler}
             deleteBoxHandler={() => deleteBoxHandler(i)}

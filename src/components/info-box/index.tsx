@@ -12,6 +12,7 @@ interface InfoBoxProps {
   Y2: number;
   text: string;
   boxClassName: string;
+  boxesClassNames: string[];
   setVisibleBoxIndexHandler: (index?: number) => void;
   deleteBoxHandler: () => void;
   setDataHandler: React.Dispatch<React.SetStateAction<AppDateInterface>>;
@@ -26,6 +27,7 @@ export default function InfoBox({
   Y2,
   text,
   boxClassName,
+  boxesClassNames,
   deleteBoxHandler,
   setVisibleBoxIndexHandler,
   setDataHandler,
@@ -36,14 +38,13 @@ export default function InfoBox({
 
   // In real application, the old state will be retrieved as an initial value from the BE
   const [oldBoxText, setOldBoxText] = useState(text);
-  const [oldBoxClass, setOldBoxClass] = useState(boxClassName);
 
   const { width, height } = getInfoBoxDimensions(X1, X2, Y1, Y2);
 
-  const saveHandler = () => {
-    setOldBoxText(boxText);
-    setOldBoxClass(boxClass);
-    setVisibleBoxIndexHandler(undefined);
+  const changeClassNameHandler = (newClassName?: string) => {
+    if (newClassName) {
+      setBoxClass(newClassName);
+    }
 
     /**
      * Setting the the app data to the new state
@@ -52,15 +53,24 @@ export default function InfoBox({
       ...prev,
       boxes: [
         ...prev.boxes.slice(0, index),
-        { class: boxClass, points: prev.boxes[index].points, text: boxText },
+        {
+          class: newClassName ?? boxClass,
+          points: prev.boxes[index].points,
+          text: boxText,
+        },
         ...prev.boxes.slice(index + 1),
       ],
     }));
   };
 
+  const saveHandler = () => {
+    setOldBoxText(boxText);
+    changeClassNameHandler();
+    setVisibleBoxIndexHandler(undefined);
+  };
+
   const cancelHandler = () => {
     setBoxText(oldBoxText);
-    setBoxClass(oldBoxClass);
     setVisibleBoxIndexHandler(undefined);
   };
 
@@ -86,10 +96,15 @@ export default function InfoBox({
       {Boolean(visibleBoxIndex === index) && (
         <div>
           <input value={boxText} onChange={(e) => setBoxText(e.target.value)} />
-          <input
+          <select
+            name="box-class"
             value={boxClass}
-            onChange={(e) => setBoxClass(e.target.value)}
-          />
+            onChange={(e) => changeClassNameHandler(e.target.value)}
+          >
+            {boxesClassNames.map((c, i) => (
+              <option key={i}>{c}</option>
+            ))}
+          </select>
 
           <div>
             <button onClick={saveHandler}>Save</button>
