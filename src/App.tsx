@@ -54,7 +54,7 @@ function App() {
 
         const scaledWidth = canvas.height * aspectRatio;
         const scaledHeight = canvas.height;
-        setScaleRatio(scaledWidth / image.width);
+        setScaleRatio(scaledHeight / image.height);
 
         if (ctx) {
           ctx.clearRect(0, 0, canvas.width, canvas.height);

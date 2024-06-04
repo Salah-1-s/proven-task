@@ -2,6 +2,51 @@
   position: absolute;
   top: 0;
   inset-inline-start: 0;
-  padding: 5px;
-  border: 1px solid red;
+  padding: 20px 5px;
+  border: 1px solid #c7c7c7;
+  box-shadow: 2px 3px #f2f2f2;
+  background: #fff;
+  transition: 300ms all ease;
+  z-index: 5;
+
+  @media (max-width: 1024px) {
+    inset-inline-start: -100%;
+  }
+}
+
+.sidebar--shown {
+  inset-inline-start: 0;
+}
+
+.sidebar__toggle {
+  display: none;
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  inset-inline-start: 0;
+  background: #fff;
+
+  @media (max-width: 1024px) {
+    display: block;
+  }
+}
+
+.sidebar__toggle div {
+  width: 25px;
+  height: 2px;
+  background-color: #333;
+  margin: 6px 0;
+  transition: 0.4s;
+}
+
+.sidebar__toggle--open div:nth-child(1) {
+  transform: translate(0, 8px) rotate(-45deg);
+}
+
+.sidebar__toggle--open div:nth-child(2) {
+  opacity: 0;
+}
+
+.sidebar__toggle--open div:nth-child(3) {
+  transform: translate(0, -8px) rotate(45deg);
 }
